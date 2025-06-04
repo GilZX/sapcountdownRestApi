@@ -1,8 +1,12 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+
+
+# después de definir db
+
+
 from flask_sqlalchemy import SQLAlchemy
 import os
-
 app = Flask(__name__)
 CORS(app)
 
@@ -12,14 +16,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app) 
 
 
-
 class Frase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(100))
     description = db.Column(db.Text)
-
+    autorize=db.Column(db.Integer,default=0)
     def to_dict(self):
-        return {"id": self.id, "author": self.author, "description": self.description}
+        return {"id": self.id, "author": self.author, "description": self.description,"autorize":self.autorize}
 
 @app.route("/frases", methods=["GET"])
 def get_frases():
